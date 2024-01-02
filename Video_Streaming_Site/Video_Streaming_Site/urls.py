@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from . import views
+from django.contrib.auth.views import LoginView, LogoutView
+
+app_name = 'video_streaming_site'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.displayIndex),
+    path('accounts/login/', LoginView.as_view(template_name='registration.html'), name='login'),
+    path('accounts/logout/', LogoutView.as_view(template_name='registration.html'), name='logout'),
 ]
