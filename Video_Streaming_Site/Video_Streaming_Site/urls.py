@@ -19,11 +19,18 @@ from django.urls import path
 from . import views
 from django.contrib.auth.views import LoginView, LogoutView
 
-app_name = 'video_streaming_site'
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.displayIndex),
+    path('home/', views.displayHome, name='home'),
+    path('accounts/signup/', views.CreateUser.as_view(), name='singup'),
     path('accounts/login/', LoginView.as_view(template_name='registration.html'), name='login'),
     path('accounts/logout/', LogoutView.as_view(template_name='registration.html'), name='logout'),
 ]
+
+# the paths below are for redirecting the user in case they enter something unusual
+
+redirect_urlpatterns = [
+        path('', views.redirectToHome),
+]
+
+urlpatterns += redirect_urlpatterns

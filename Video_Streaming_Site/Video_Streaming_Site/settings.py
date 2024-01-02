@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_URL = 'video_streaming_site:login'
-LOGOUT_URL = 'video_streaming_site:logout'
-LOGIN_REDIRECT = ''
-LOGOUT_REDIRECT = ''
+# Login and logout urls
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
