@@ -1,8 +1,8 @@
-from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse_lazy 
 from django.views.generic import CreateView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, HttpResponseRedirect
 
 def redirectToHome(request):
     return HttpResponseRedirect(
@@ -17,4 +17,3 @@ class CreateUser(CreateView):
     form_class = UserCreationForm
     template_name = 'registration.html'
     success_url = reverse_lazy('login')
-
