@@ -1,36 +1,29 @@
-from . import models
-from . import forms
-from django.shortcuts import render, redirect
+from django.views.generic import DetailView
+from django.views.generic.edit import FormMixin
+from django.urls import reverse
+from . import models, forms
 
-# helper functions for streamVideo()
-def saveUserComment(request, video, form):
-    if form.is_valid():
-        comment = form.save(commit = False)
-        comment.author = request.user
-        comment.video = video
+class StreamVideo(FormMixin, DetailView):
+    model = models.Video
+    form_class = forms.CommentForm
+    template_name = 'stream.html'
+    
+    def get_success_url(self):
+        return reverse('video_streaming:stream', kwargs={'slug': self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = models.Comment.objects.filter(video=self.object).order_by('-created_at')
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        return self.form_valid(form) if form.is_valid() else self.form_invalid(form)
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.author = self.request.user
+        comment.video = self.object
         comment.save()
-        return redirect('video_streaming:stream', slug = video.slug)
-    
-def getUserComments(video):
-    return models.Comment.objects.filter(video = video).order_by('-created_at')
-
-# Create your views here.
-    
-def streamVideo(request, slug):
-    print('streamVideo - is called')
-    video = models.Video.objects.get(slug = slug)
-    form = forms.CommentForm(request.POST or None)
-    comments = getUserComments(video)
-
-    context = {
-        'video': video,
-        'form': form,
-        'comments': comments,
-    }
-
-    # saving logged in users' comments and reloading the page
-    if request.user.is_authenticated and request.method == 'POST':
-        return saveUserComment(request, video, form)
-
-
-    return render(request, 'stream.html', context = context)
+        return super().form_valid(form)
