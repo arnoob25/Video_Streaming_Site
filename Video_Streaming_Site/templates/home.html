@@ -1,14 +1,40 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>
-        This is the home page
-    </h1>
     
+    <!-- page title-->
+    <h1>
+        {{ request.resolver_match.url_name | title }}
+    </h1>
+
+    
+    <!-- display logout button -->
     {% if user.is_authenticated %}
         <form action="{% url 'logout' %}" method='POST'>
             {% csrf_token %}
             <input type='submit' value='logout'>
         </form>
+    
+    <!-- display login/ signup button -->
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        Or, &nbsp;
+        <a href="{% url 'signup' %}">Sign up</a>
     {% endif %}
+
+    <hr>
+
+    <!-- display list of videos -->
+    {% for video in videos %}
+            <h2>
+                <a href="{% url 'video_streaming:stream' video.slug %}">
+                    {{ video.title | title }}
+                </a>
+            </h2>
+            <h3>
+                {{ video.get_category_display | title }}
+            </h3>
+            <hr>
+    {% endfor %}
+
 {% endblock %}
