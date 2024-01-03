@@ -1,16 +1,14 @@
-from django.shortcuts import render, HttpResponseRedirect
+from video_streaming import models
 from django.urls import reverse_lazy 
-from django.views.generic import CreateView
 from django.contrib.auth import get_user_model
+from django.views.generic import CreateView, ListView
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, HttpResponseRedirect
 
 def redirectToHome(request):
     return HttpResponseRedirect(
         reverse_lazy('home')
     )
-
-def displayHome(request):
-    return render(request, 'home.html')
 
 class CreateUser(CreateView):
     model = get_user_model()
@@ -18,3 +16,7 @@ class CreateUser(CreateView):
     template_name = 'registration.html'
     success_url = reverse_lazy('login')
 
+class DisplayVideoList(ListView):
+    model = models.Video
+    template_name = 'home.html'
+    context_object_name = 'videos'
