@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 
-{% block boddy %}
+{% block body %}
     <h1>
         This is the home page
     </h1>
+    
+    {% if user.is_authenticated %}
+        <form action="{% url 'logout' %}" method='POST'>
+            {% csrf_token %}
+            <input type='submit' value='logout'>
+        </form>
+    {% endif %}
 {% endblock %}

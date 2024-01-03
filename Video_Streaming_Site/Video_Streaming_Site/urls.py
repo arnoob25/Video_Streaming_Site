@@ -24,7 +24,7 @@ urlpatterns = [
     path('home/', views.displayHome, name='home'),
     path('accounts/signup/', views.CreateUser.as_view(), name='singup'),
     path('accounts/login/', LoginView.as_view(template_name='registration.html'), name='login'),
-    path('accounts/logout/', LogoutView.as_view(template_name='registration.html'), name='logout'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout'),
 ]
 
 # the paths below are for redirecting the user in case they enter something unusual
