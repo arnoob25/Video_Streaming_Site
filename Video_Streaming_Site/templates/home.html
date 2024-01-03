@@ -21,6 +21,16 @@
         Or, &nbsp;
         <a href="{% url 'signup' %}">Sign up</a>
     {% endif %}
+    
+    <!-- search functionality -->
+    <form method="GET" action="{% url 'home' %}">
+        <br>
+        {% csrf_token %}
+        <input type="text" name="searchFilter" placeholder="Search videos">
+        <input type="submit" value="Search">
+        <a href="{% url 'home' %}">Reset search filter</a>
+    </form>
+
 
     <hr>
 
