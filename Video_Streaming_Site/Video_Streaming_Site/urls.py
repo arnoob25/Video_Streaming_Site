@@ -21,7 +21,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.displayHome, name='home'),
+
+    # home page
+    
+    path('home/', views.DisplayVideoList.as_view(), name='home'),
 
     # connecting apps
 
@@ -29,7 +32,7 @@ urlpatterns = [
 
     # user registration routes
 
-    path('accounts/signup/', views.CreateUser.as_view(), name='singup'),
+    path('accounts/signup/', views.CreateUser.as_view(), name='signup'),
     path('accounts/login/', LoginView.as_view(template_name='registration.html'), name='login'),
     path('accounts/logout/', LogoutView.as_view(), name='logout'),
 

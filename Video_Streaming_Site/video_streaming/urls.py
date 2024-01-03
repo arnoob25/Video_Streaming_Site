@@ -5,5 +5,5 @@ from django.urls import path
 app_name = 'video_streaming'
 
 urlpatterns = [
-    path('video/', views.streamVideo, name='stream'),
+    path('<slug:slug>/', views.streamVideo, name='stream'),
 ]

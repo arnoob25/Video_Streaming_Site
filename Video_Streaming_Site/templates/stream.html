@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block body %}
+
+    <a href="{% url 'home' %}">Back to home</a>
+
     <h1>
         {{ video.title | title }}
     </h1>
