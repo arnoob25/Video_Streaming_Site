@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    {{ video.title | title }}
+{% endblock %}
+
 {% block body %}
 
     <a href="{% url 'home' %}">Back to home</a>
@@ -8,6 +12,7 @@
         {{ video.title | title }}
     </h1>
     
+    <!-- stream video -->
     <iframe 
         width="560" height="315" 
         src="{{ video.source }}" 
@@ -16,4 +21,30 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
         allowfullscreen>
     </iframe>
+
+    <h2>Comments:</h2>
+    <hr>
+
+    <!-- create comment -->
+    {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'video_streaming:stream' video.slug %}">
+        {{ form.as_p }}        
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+        </form>
+        
+        <hr>
+    {% endif %}
+
+    <!-- display all comments -->
+    {% for comment in comments %}
+        <p>@{{ comment.author }} posted at {{ comment.created_at }}</p>
+        <h4>
+            {{ comment.comment }}
+        </h4>
+        <br>
+    {% empty %}
+        <p>No comments yet</p>
+    {% endfor %}
+
 {% endblock %}
