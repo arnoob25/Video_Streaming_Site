@@ -1,11 +1,12 @@
 from typing import Any
-from django.db.models.query import QuerySet
 from video_streaming import models
 from django.urls import reverse_lazy 
+from django.db.models.query import QuerySet
 from django.contrib.auth import get_user_model
 from django.views.generic import CreateView, ListView
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def redirectToHome(request):
     return HttpResponseRedirect(
@@ -33,3 +34,16 @@ class DisplayVideoList(ListView):
         
         return queryset
 
+class UploadVideo(LoginRequiredMixin, CreateView):
+    model = models.Video
+    fields = [
+        'title',
+        'source',
+        'category',
+    ]
+    template_name = 'upload_video.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)

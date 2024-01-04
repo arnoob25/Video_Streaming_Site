@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 class Video(models.Model):
+    author = models.ForeignKey(get_user_model(), blank=True, on_delete = models.CASCADE)
     title = models.CharField(max_length=100)
     source = models.URLField(max_length=500)
     thumbnail = models.URLField(max_length=500, blank=True)

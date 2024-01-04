@@ -7,9 +7,14 @@
         {{ request.resolver_match.url_name | title }}
     </h1>
 
-    
+    <!-- display upload video button  -->
     <!-- display logout button -->
     {% if user.is_authenticated %}
+
+        <a href="{% url 'upload' %}">
+        Upload your video
+        </a>
+
         <form action="{% url 'logout' %}" method='POST'>
             {% csrf_token %}
             <input type='submit' value='logout'>
@@ -44,9 +49,10 @@
                         {{ video.title | title }}
                     </a>
                 </h2>
-                <h3>
-                    {{ video.get_category_display | title }}
-                </h3>
+                <p>
+                    Category: {{ video.get_category_display | title }}<br>
+                    by @{{  video.author }} 
+                </p>
             </div>
         </div>
         <hr>
