@@ -7,9 +7,14 @@
         {{ request.resolver_match.url_name | title }}
     </h1>
 
-    
+    <!-- display upload video button  -->
     <!-- display logout button -->
     {% if user.is_authenticated %}
+
+        <a href="{% url 'upload' %}">
+        Upload your video
+        </a>
+
         <form action="{% url 'logout' %}" method='POST'>
             {% csrf_token %}
             <input type='submit' value='logout'>
@@ -36,15 +41,21 @@
 
     <!-- display list of videos -->
     {% for video in videos %}
-            <h2>
-                <a href="{% url 'video_streaming:stream' video.slug %}">
-                    {{ video.title | title }}
-                </a>
-            </h2>
-            <h3>
-                {{ video.get_category_display | title }}
-            </h3>
-            <hr>
+        <div style="display: flex; align-items: start;">
+            <img src="{{ video.thumbnail }}" alt="{{ video.title | title }}" style="width: 200px; height: auto; margin-right: 10px;">
+            <div>
+                <h2>
+                    <a href="{% url 'video_streaming:stream' video.slug %}">
+                        {{ video.title | title }}
+                    </a>
+                </h2>
+                <p>
+                    Category: {{ video.get_category_display | title }}<br>
+                    by @{{  video.author }} 
+                </p>
+            </div>
+        </div>
+        <hr>
     {% endfor %}
 
 {% endblock %}
