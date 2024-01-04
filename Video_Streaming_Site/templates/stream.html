@@ -11,7 +11,8 @@
     <h1>
         {{ video.title | title }}
     </h1>
-    <h3>{{ video.get_category_display }}</h3>
+    <h3>Category: {{ video.get_category_display }}</h3>
+    <h3>By: @{{ video.author }}</h3>
     
     <!-- stream video -->
     <iframe 

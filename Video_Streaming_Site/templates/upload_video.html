@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h1>
+        {{ request.resolver_match.url_name | title }}
+    </h1>
+
+    <form method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="Upload">
+    </form>
+
+{% endblock %}

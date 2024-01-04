@@ -1,8 +1,9 @@
+from . import models, forms
+from django.urls import reverse
+from django.shortcuts import redirect
 from django.views.generic import DetailView
 from django.views.generic.edit import FormMixin
-from django.urls import reverse
-from . import models, forms
-from django.shortcuts import redirect
+
 
 class StreamVideo(FormMixin, DetailView):
     model = models.Video
@@ -30,4 +31,3 @@ class StreamVideo(FormMixin, DetailView):
     
     def get_success_url(self):
         return reverse('video_streaming:stream', kwargs={'slug': self.object.slug})
-

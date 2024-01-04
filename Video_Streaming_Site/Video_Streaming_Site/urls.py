@@ -24,11 +24,16 @@ urlpatterns = [
 
     # home page
     
-    path('home/', views.DisplayVideoList.as_view(), name='home'),
+    path('home/', views.DisplayVideoList.as_view(), name = 'home'),
+    
+    # upload functionality
+
+    path('upload/', views.UploadVideo.as_view(), name = 'upload'),
 
     # connecting apps
 
     path('stream/', include('video_streaming.urls')),
+
 
     # user registration routes
 
